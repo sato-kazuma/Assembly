@@ -75,7 +75,7 @@ int main() {
 	{
 		printf("%d,\n", vettori_num[i]);
 	}*/
-	char str[] = { "ngul" };
+	char str[] = { "ngrtnltfl" };
 	char b = { 'a' };
 	char c[] = { "mammt" };
 	printf("%s ", str);
