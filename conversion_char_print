@@ -1,0 +1,30 @@
+.586
+.model flat
+.code
+
+_somma_modulo proc
+push ebp
+mov ebp, esp
+push ebx
+push esi
+push edi
+
+mov ebx, dword ptr[ebp + 8] ; il nostro int
+mov ecx, dword ptr[ebp + 12]; sgn
+mov ecx, dword ptr[ebp + 16]; *stringa
+mov esi, 0					; contatore
+
+ciclo: 
+
+
+
+finissima:
+pop edi 
+pop esi
+pop ebx
+mov esp, ebp
+pop ebp
+ret
+_somma_modulo endp
+
+ end
