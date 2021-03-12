@@ -1,0 +1,154 @@
+.586
+.model flat
+.code
+
+
+_conta_vocali_consonanti proc
+push ebp
+mov ebp, esp
+push ebx
+push edi
+push esi
+
+mov ebx, dword ptr[ebp + 8] ;pointer to src
+mov ecx, dword ptr[ebp + 12] ;pointer to vocali
+mov esi, 0 ; indice
+mov edx, dword ptr[ebp + 16] ; pointer to consonanti
+mov dword ptr[edx], 0
+mov dword ptr[ecx],0
+
+
+;inizializzazione del vettore per sicurezza
+mov dword ptr[edi], 0
+mov dword ptr[edi + 12], 0
+mov dword ptr[edi + 16], 0
+
+Inizio:
+mov edi,0
+mov al, byte ptr[ebx + esi]  ; al lo uso come reg temporaneo
+cmp al,0
+je fine_1
+call controllo_voc
+cmp edi,1
+jne Cons
+jmp inizio
+Cons:
+call controllo_cons
+jmp inizio
+
+fine_1:
+mov dword ptr[ebp+12] , ecx
+mov dword ptr[ebp+16] , edx
+
+cmp ecx,0
+je contr_vuoto
+jmp fine_2
+contr_vuoto:
+cmp edx,0
+je fine_2parte1
+jmp no_spaziesimboli
+
+fine_2parte1:
+mov eax,-1
+jmp fine_2
+
+
+no_spaziesimboli:
+add ecx,edx
+dec esi
+cmp ecx,esi
+jne fine_2
+mov eax,-2
+
+
+fine_2:
+mov eax,0
+pop esi
+pop edi
+pop ebx
+mov esp, ebp
+pop ebp
+ret
+_conta_vocali_consonanti endp
+
+
+
+controllo_voc proc
+
+cmp al,'A'
+je vocale
+cmp al,'E'
+je vocale
+cmp al,'I'
+je vocale
+cmp al, 'O'
+je vocale
+cmp al , 'U'
+je vocale
+cmp al , 'a'
+je vocale
+cmp al,'e'
+je vocale
+cmp al,'i'
+je vocale
+cmp al,'o'
+je vocale
+cmp al, 'u'
+je vocale
+
+ret
+
+vocale:
+push edx
+inc dword ptr[ecx]
+inc esi
+inc edi
+pop edx
+ret
+
+controllo_voc endp
+
+
+controllo_cons proc
+
+cmp al,'A'
+jge conferma_maiusc
+inc esi
+ret
+
+conferma_maiusc:
+cmp al,'Z'
+jle consonante
+cmp al,'a'
+jge conferma_due
+inc edi
+ret
+
+conferma_due:
+cmp al, 'z'
+jle consonante
+inc edi
+ret
+
+consonante:
+push edx
+inc dword ptr[edx]
+inc esi
+pop edx
+ret
+
+controllo_cons endp
+
+end
+
+//main
+#include<stdio.h>
+int main() {
+char src[255] = "Ciao Mamma 123";
+int dstV;
+int dstC;
+int ret;
+ret = conta_vocali_consonanti(src,&dstV,&dstC);
+printf("Vocali=%d , Consonanti=%d \n", &dstV, &dstC);
+
+}
