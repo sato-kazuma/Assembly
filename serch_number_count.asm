@@ -61,3 +61,25 @@ _cerca_combinazioni_numero endp
 
 
 end
+
+//main
+#include<stdio.h>
+int cerca_combinazioni_numero(char *str, int cerca, int *vettori_num);
+
+int main() {
+	//char str[255] = "bella la 1 vita 11 1 2345 111";
+	//int vettori_num[3];
+	//int ret;
+	//ret = cerca_combinazioni_numero(str, 1, vettori_num);
+	/*for (size_t i = 0; i < 3; i++)
+	{
+		printf("%d,\n", vettori_num[i]);
+	}*/
+	char str[] = { "ngul" };
+	char b = { 'a' };
+	char c[] = { "mammt" };
+	printf("%s ", str);
+	printf("%s ", b);
+	printf("%s ", c);
+	return 0;
+}
