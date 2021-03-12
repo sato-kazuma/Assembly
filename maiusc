@@ -1,0 +1,48 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+__declspec(naked) int convertimaius(char* p) {
+	__asm {
+		push ebp
+		mov ebp,esp
+		push edi
+		push esi
+		push ebx
+
+		mov eax,dword ptr[ebp+8]
+		mov esi,0
+
+		ciclo:
+		mov bl,byte ptr[eax+esi]
+		cmp bl,0
+		je fine
+		cmp bl,' '
+		jne controllo
+
+		inc esi
+		jmp ciclo
+
+			controllo:
+		sub bl,32
+		mov byte ptr[eax+esi],bl
+		inc esi
+		jmp ciclo
+
+			fine:
+		mov eax,0
+		pop ebx
+		pop esi
+		pop edi
+		mov esp,ebp
+		pop ebp
+		ret
+	}
+}
+
+//main
+int main(void) {
+	char str[] = { " m   ia mamma" };
+	int c = convertimaius(str);
+	printf("La stringa maiuscola e': %s", (str));
+	return 0;
+}
