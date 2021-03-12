@@ -1,0 +1,68 @@
+.586
+.model flat
+.code
+_fattoriali proc
+
+push ebp
+mov ebp,esp
+push esi
+push edi
+mov ebx, dword ptr[ebp+8];src
+mov ecx, dword ptr[ebp+12];dst
+mov esi,0
+
+Ciclo:
+cmp esi, dword ptr[ebp+16]
+je EndCiclo
+call fatto
+mov dword ptr[ecx+esi*4],eax
+inc esi
+jmp Ciclo
+
+EndCiclo:
+mov eax,0
+pop edi
+pop esi
+mov esp,ebp
+pop ebp
+ret
+_fattoriali endp
+
+fatto proc
+mov eax, dword ptr[ebx+esi*4]
+mov edi, dword ptr[ebx+esi*4]
+
+cmp dword ptr[ebx+esi*4],0
+je zero
+cmp dword ptr[ebx+esi*4],1
+je zero
+
+CicloFatt:
+dec edi
+cmp edi,1
+je EndCicloFatt
+imul edi
+jmp CicloFatt
+
+zero:
+mov eax,1
+
+EndCicloFatt:
+ret
+fatto endp
+end
+
+//main
+#include<stdio.h>
+int fattoriali(int *src, int *dst,int lunghezza);
+int main() {
+	int src[15] = {1,2,0,1,2,5,6,4,1,3,7,9,9,9,1};
+	int dst[15];
+	int ret = fattoriali(src, dst, 15);
+	printf("%d, \n ", ret);
+	for (int i = 0; i < 15; i++) {
+	printf("%d, \n", dst[i]);
+
+	}
+	return 0;
+}
